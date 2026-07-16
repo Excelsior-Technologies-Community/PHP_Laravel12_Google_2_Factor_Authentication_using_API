@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -42,5 +43,21 @@ class User extends Authenticatable
         $this->google2fa_secret = null;
         $this->google2fa_enabled = false;
         $this->save();
+    }
+
+    /**
+     * Trusted devices.
+     */
+    public function trustedDevices(): HasMany
+    {
+        return $this->hasMany(TrustedDevice::class);
+    }
+
+    /**
+     * Authentication logs
+     */
+    public function authenticationLogs(): HasMany
+    {
+        return $this->hasMany(AuthenticationLog::class);
     }
 }
